@@ -15,10 +15,18 @@ describe.only('Trie', function() {
 
   describe('INSERT', () => {
     it('should add items to the trie', () => {
-      trie.insert('hello');
-      expect(trie.root.h.data).to.equal('h');
-      expect(trie.root.h.e.data).to.equal('e');
-      expect(trie.root.h.e.l.l.o.data).to.equal('o');
+      trie.insert('fern');
+      expect(trie.root.f.data).to.equal('f');
+      expect(trie.root.f.e.data).to.equal('e');
+      expect(trie.root.f.e.r.n.data).to.equal('n');
+    })
+
+    it('should insert multiple words', () => {
+      trie.insert('sanseveria');
+      trie.insert('cactus');
+
+      expect(trie.root.s.a.data).to.equal('a');
+      expect(trie.root.c.a.c.data).to.equal('c');
     })
   })
 })
