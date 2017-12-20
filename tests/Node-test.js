@@ -21,4 +21,16 @@ describe('Node', function() {
     
     expect(node.data).to.equal('a');
   })
+
+  it('should default to not selected', () => {
+    expect(node.isCompleted).to.equal(false);
+  })
+
+  it('should have a next object', () => {
+    expect(node.next).to.deep.equal({});
+  })
+
+  it('should start with selected 0 times', () => {
+    expect(node.timesSelected).to.equal(0);
+  })
 })
