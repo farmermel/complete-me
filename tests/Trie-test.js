@@ -1,6 +1,9 @@
 import Node from '../lib/Node';
 import Trie from '../lib/Trie';
 const { expect } = require('chai');
+const fs = require('fs');
+const text = "/usr/share/dict/words";
+const dictionary = fs.readFileSync(text).toString().trim().split('\n');
 
 describe.only('Trie', function() {
   let trie;
@@ -36,6 +39,12 @@ describe.only('Trie', function() {
 
       expect(trie.count).to.equal(3);
     })
+
+    it.skip('should not add nonsense to trie', () => {
+      trie.populate(dictionary);
+
+      expect(trie.findNode('wasaeha')).to.not.equal(trie.root.next.w.next.a.next.s.next.a.next.e.next.h.next.a)
+    })
   })
 
   describe('SUGGEST', () => {
@@ -48,7 +57,8 @@ describe.only('Trie', function() {
       trie.insert('heliotrope');
       trie.insert('heliconia');
 
-      expect(trie.suggest('hel')).to.equal(['helleborus', 'heliotrope', 'heliconia'])
+
+      expect(trie.suggest('h')).to.deep.equal(['helleborus', 'heliotrope', 'heliconia'])
     })
   })
 
@@ -58,6 +68,14 @@ describe.only('Trie', function() {
 
       expect(trie.findNode('al')).to.equal(trie.root.next.a.next.l);
 
+    })
+  })
+
+  describe('POPULATE', () => {
+    it('should insert every word from the dictionary', () => {
+      trie.populate(dictionary);
+
+      expect(trie.findNode('was')).to.equal(trie.root.next.w.next.a.next.s)
     })
   })
 })
