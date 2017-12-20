@@ -5,7 +5,7 @@ const fs = require('fs');
 const text = "/usr/share/dict/words";
 const dictionary = fs.readFileSync(text).toString().trim().split('\n');
 
-describe.only('Trie', function() {
+describe('Trie', function() {
   let trie;
 
   beforeEach(() => {
@@ -48,7 +48,21 @@ describe.only('Trie', function() {
 
       expect(trie.count).to.equal(3);
     })
-    //tolowercase
+
+    it('should not increment count if word is a duplicate', () => {
+      trie.insert('ficus');
+      trie.insert('marigold');
+      trie.insert('oregano');
+      trie.insert('oregano');
+
+      expect(trie.count).to.equal(3);
+    })
+
+    it('should convert uppercase to lowercase', () => {
+      trie.insert('IronWood');
+
+      expect(trie.suggest('iron')).to.deep.equal(['ironwood']);
+    })
 
     it('should only take in a string', () => {
       expect(trie.insert({please: 'no'})).to.equal(false);
@@ -71,10 +85,16 @@ describe.only('Trie', function() {
       expect(trie.suggest('h')).to.deep.equal(['helleborus', 'heliotrope', 'heliconia'])
     })
 
-    it.skip('should not add nonsense to trie', () => {
+    it('should return an array of possibilities when the trie has a lot of words', () => {
       trie.populate(dictionary);
 
-      expect(trie.suggest('wasaeha')).to.equal(false);
+      expect(trie.suggest('heliophob')).to.deep.equal(['heliophobe', 'heliophobia', 'heliophobic', 'heliophobous']);
+    })
+
+    it('should not add nonsense to trie', () => {
+      trie.populate(dictionary);
+
+      expect(trie.suggest('wasaeha')).to.deep.equal([]);
     })
   })
 
@@ -83,7 +103,18 @@ describe.only('Trie', function() {
       trie.insert('aloe');
 
       expect(trie.findNode('al')).to.equal(trie.root.next.a.next.l);
+    })
 
+    it('should not add nonsense to trie', () => {
+      trie.populate(dictionary);
+
+      expect(trie.findNode('wasaeha')).to.deep.equal([]);
+    })
+
+    it('should find uppercase suggestions', () => {
+      trie.insert('dogwood');
+
+      expect(trie.findNode('Do')).to.equal(trie.root.next.d.next.o);
     })
   })
 
@@ -104,7 +135,7 @@ describe.only('Trie', function() {
       trie.populate(dictionary);
       trie.select('ash');
 
-      expect(trie.root.next.a.next.s.next.h.timesSelected).to.equal(1);
+      expect(trie.root.next.a.next.s.next.h.rating).to.equal(1);
     })
   })
 
