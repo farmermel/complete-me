@@ -48,11 +48,13 @@ describe.only('Trie', function() {
 
       expect(trie.count).to.equal(3);
     })
+    //tolowercase
 
-    it.skip('should not add nonsense to trie', () => {
-      trie.populate(dictionary);
-
-      expect(trie.findNode('wasaeha')).to.not.equal(trie.root.next.w.next.a.next.s.next.a.next.e.next.h.next.a)
+    it('should only take in a string', () => {
+      expect(trie.insert({please: 'no'})).to.equal(false);
+      expect(trie.insert(9)).to.equal(false);
+      expect(trie.insert(['hi', 9, 'please no'])).to.equal(false);
+      expect(trie.insert(true)).to.equal(false);
     })
   })
 
@@ -67,6 +69,12 @@ describe.only('Trie', function() {
       trie.insert('heliconia');
 
       expect(trie.suggest('h')).to.deep.equal(['helleborus', 'heliotrope', 'heliconia'])
+    })
+
+    it.skip('should not add nonsense to trie', () => {
+      trie.populate(dictionary);
+
+      expect(trie.suggest('wasaeha')).to.equal(false);
     })
   })
 
@@ -122,7 +130,16 @@ describe.only('Trie', function() {
       trie.select('pizzicato')
 
       expect(trie.suggest('pizz')).to.deep.equal(['pizzle', 'pizzicato', 'pizza','pizzeria']);
+    })
+  })
 
+  describe('DELETE', () => {
+    it('should delete a suggestion', () => {
+      trie.insert('bindweed');
+      trie.insert('bilobia');
+
+      trie.delete('bindweed');
+      expect(trie.suggest('bi')).to.deep.equal(['bilobia'])
     })
   })
 })
