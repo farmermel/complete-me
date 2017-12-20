@@ -24,14 +24,6 @@ describe('Trie', function() {
       expect(trie.root.next.f.next.e.next.r.next.n.data).to.equal('n');
     })
 
-    // it('should not make multiple nodes for the same letter', () => {
-    //   trie.insert('helleborus');
-    //   trie.insert('heliotrope');
-    //   trie.insert('heliconia');
-
-    //   expect(trie.findNode('he')).to.equal(trie.findNode('he'))
-    // })
-
     it('should insert multiple words', () => {
       trie.insert('sanseveria');
       trie.insert('cactus');
