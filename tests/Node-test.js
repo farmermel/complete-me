@@ -31,6 +31,6 @@ describe('Node', function() {
   })
 
   it('should start with selected 0 times', () => {
-    expect(node.timesSelected).to.equal(0);
+    expect(node.rating).to.equal(0);
   })
 })
