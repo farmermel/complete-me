@@ -36,7 +36,6 @@ describe('Trie', function() {
       trie.insert('ficus');
       trie.insert('marigold');
       trie.insert('oregano');
-      // trie.insert('oregano');
 
       expect(trie.count).to.equal(3);
     })
@@ -57,10 +56,10 @@ describe('Trie', function() {
     })
 
     it('should only take in a string', () => {
-      expect(trie.insert({please: 'no'})).to.equal(false);
-      expect(trie.insert(9)).to.equal(false);
-      expect(trie.insert(['hi', 9, 'please no'])).to.equal(false);
-      expect(trie.insert(true)).to.equal(false);
+      expect(trie.insert({please: 'no'})).to.equal(null);
+      expect(trie.insert(9)).to.equal(null);
+      expect(trie.insert(['hi', 9, 'please no'])).to.equal(null);
+      expect(trie.insert(true)).to.equal(null);
     })
   })
 
